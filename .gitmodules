@@ -7,3 +7,6 @@
 [submodule "contracts/lib/shipyard-core"]
 	path = contracts/lib/shipyard-core
 	url = https://github.com/ProjectOpenSea/shipyard-core
+[submodule "contracts/lib/solarray"]
+	path = contracts/lib/solarray
+	url = https://github.com/evmcheb/solarray
