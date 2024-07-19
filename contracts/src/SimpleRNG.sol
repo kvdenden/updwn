@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
+import {Context} from "@openzeppelin/contracts/utils/Context.sol";
 import {IRNG} from "./interfaces/IRNG.sol";
 import {IRNGConsumer} from "./interfaces/IRNGConsumer.sol";
 
-contract SimpleRNG is IRNG {
+contract SimpleRNG is IRNG, Context {
     error InvalidRequest(bytes32 requestId);
     error NotReady(bytes32 requestId);
     error AlreadyFulfilled(bytes32 requestId);
@@ -32,7 +33,7 @@ contract SimpleRNG is IRNG {
     function requestEntropy() external override returns (bytes32 requestId) {
         requestId = keccak256(abi.encodePacked(block.number, _nonce++));
 
-        address consumer = msg.sender;
+        address consumer = _msgSender();
 
         _requests[requestId] = _newRequest(consumer);
         emit EntropyRequested(requestId, consumer);
