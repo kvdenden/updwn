@@ -1,2 +1,4 @@
 forge-std/=lib/forge-std/src/
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+shipyard-core/=lib/shipyard-core/src/
+solarray/=lib/solarray/src/
