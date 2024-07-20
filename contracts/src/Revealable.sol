@@ -11,7 +11,7 @@ contract Revealable is RNGConsumerBase {
     constructor(address rng) RNGConsumerBase(rng) {}
 
     function reveal() public virtual {
-        require(_requestId > 0, "Already revealed");
+        require(_requestId == 0, "Already revealed");
 
         _requestId = RNG.requestEntropy();
     }

@@ -35,7 +35,7 @@ abstract contract OnchainRenderer is ITokenRenderer {
             Solarray.strings(
                 json.property("name", _getName(tokenId)),
                 json.property("description", _getDescription(tokenId)),
-                json.property("image", _getImage(tokenId)),
+                json.property("image", Metadata.base64SvgDataURI(_getImage(tokenId))),
                 json.rawProperty("attributes", json.arrayOf(_getAttributes(tokenId)))
             )
         );
@@ -52,44 +52,4 @@ abstract contract OnchainRenderer is ITokenRenderer {
     function _getImage(uint256 tokenId) internal view virtual returns (string memory);
 
     function _getAttributes(uint256 /* tokenId */ ) internal view virtual returns (string[] memory);
-
-    function _traitMetadata(string memory name, string memory value) internal pure virtual returns (string memory) {
-        return json.objectOf(Solarray.strings(json.property("trait_type", name), json.property("value", value)));
-    }
-
-    function _traitMetadata(string memory name, string memory value, DisplayType displayType)
-        internal
-        pure
-        virtual
-        returns (string memory)
-    {
-        return json.objectOf(
-            Solarray.strings(
-                json.property("display_type", Metadata.toString(displayType)),
-                json.property("trait_type", name),
-                json.property("value", value)
-            )
-        );
-    }
-
-    function _traitMetadata(string memory name, uint256 value) internal pure virtual returns (string memory) {
-        return json.objectOf(
-            Solarray.strings(json.property("trait_type", name), json.rawProperty("value", value.toString()))
-        );
-    }
-
-    function _traitMetadata(string memory name, uint256 value, DisplayType displayType)
-        internal
-        pure
-        virtual
-        returns (string memory)
-    {
-        return json.objectOf(
-            Solarray.strings(
-                json.property("display_type", Metadata.toString(displayType)),
-                json.property("trait_type", name),
-                json.rawProperty("value", value.toString())
-            )
-        );
-    }
 }

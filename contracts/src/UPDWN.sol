@@ -41,6 +41,10 @@ contract UPDWN is SimpleERC721, TokenDescriptor, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 
+    function reveal() public override onlyRole(DEFAULT_ADMIN_ROLE) {
+        super.reveal();
+    }
+
     function setRenderer(address renderer_) public onlyRole(DEFAULT_ADMIN_ROLE) {
         renderer = ITokenRenderer(renderer_);
     }
