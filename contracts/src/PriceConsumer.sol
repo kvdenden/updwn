@@ -9,14 +9,28 @@ import {IPriceFeed} from "./interfaces/IPriceFeed.sol";
 contract PriceConsumer is IPriceFeed, AutomationCompatible {
     AggregatorV3Interface internal _priceFeed;
 
-    uint256 public immutable interval; // minimum interval (in seconds) between two answers
+    uint256 immutable _interval; // minimum interval (in seconds) between two answers
     uint256 _nextTimestamp;
 
     int256[] _answers;
 
-    constructor(address priceFeed, uint256 interval_) {
-        _priceFeed = AggregatorV3Interface(priceFeed);
-        interval = interval_;
+    constructor(address priceFeed_, uint256 interval_, uint256 initialTimestamp_, uint80[] memory roundIds_) {
+        _priceFeed = AggregatorV3Interface(priceFeed_);
+        _interval = interval_;
+        _nextTimestamp = initialTimestamp_;
+
+        // seed historical data
+        for (uint256 i; i < roundIds_.length; i++) {
+            _fetchAnswer(roundIds_[i]);
+        }
+    }
+
+    function interval() external view returns (uint256) {
+        return _interval;
+    }
+
+    function nextTimestamp() external view returns (uint256) {
+        return _nextTimestamp;
     }
 
     function getCurrentPrice() external view returns (int256) {
@@ -35,30 +49,23 @@ contract PriceConsumer is IPriceFeed, AutomationCompatible {
     function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory performData) {
         (uint80 roundId,,, uint256 updatedAt,) = _priceFeed.latestRoundData(); // TODO: should we use latest round or find the round right after _nextTimestamp?
 
-        upkeepNeeded = _upkeepAllowed() && updatedAt >= _nextTimestamp;
+        upkeepNeeded = updatedAt >= _nextTimestamp;
         performData = abi.encode(roundId);
     }
 
     function performUpkeep(bytes calldata performData) external override {
-        require(_upkeepAllowed(), "Upkeep not allowed yet");
-
         uint80 roundId = abi.decode(performData, (uint80));
         _fetchAnswer(roundId);
-    }
-
-    // TODO: prevent upkeep before historical data is seeded
-    function _upkeepAllowed() internal view returns (bool) {
-        return _nextTimestamp > 0;
     }
 
     function _fetchAnswer(uint80 roundId_) internal {
         (, int256 answer,, uint256 updatedAt,) = _priceFeed.getRoundData(roundId_);
 
-        require(updatedAt >= _nextTimestamp, "Not enough time since previous answer");
+        require(updatedAt >= _nextTimestamp, "Answer too old");
 
         uint256 index = _answers.length;
         _answers.push(answer);
-        _nextTimestamp += interval;
+        _nextTimestamp += _interval;
 
         emit PriceUpdated(index, answer);
 

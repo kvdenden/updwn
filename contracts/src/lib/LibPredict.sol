@@ -13,10 +13,10 @@ library LibPredict {
     }
 
     function getPriceAction(IPriceFeed feed, uint256 index1, uint256 index2) internal view returns (PriceAction) {
-        int256 oldPrice = feed.getPrice(index1);
-        int256 newPrice = feed.getPrice(index2);
+        int256 price1 = feed.getPrice(index1);
+        int256 price2 = feed.getPrice(index2);
 
-        return newPrice > oldPrice ? PriceAction.PRICE_UP : PriceAction.PRICE_DOWN;
+        return price2 > price1 ? PriceAction.PRICE_UP : PriceAction.PRICE_DOWN;
     }
 
     function getRecentPriceAction(IPriceFeed feed, uint256 maxCount) internal view returns (PriceAction[] memory) {
@@ -35,6 +35,24 @@ library LibPredict {
         }
 
         return priceAction;
+    }
+
+    function matches(IPriceFeed feed, PriceAction[] memory predictions) internal view returns (uint256) {
+        PriceAction[] memory priceAction = getRecentPriceAction(feed, predictions.length);
+
+        for (uint256 len = priceAction.length; len > 0; len--) {
+            bool mismatch;
+            for (uint256 i; i < len; i++) {
+                if (predictions[i] != priceAction[priceAction.length - len + i]) {
+                    mismatch = true;
+                    break;
+                }
+            }
+
+            if (!mismatch) return len;
+        }
+
+        return 0;
     }
 
     function getPredictions(ITokenDescriptor descriptor, uint256 tokenId)
