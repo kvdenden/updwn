@@ -4,7 +4,9 @@ pragma solidity ^0.8.23;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {AutomationCompatible} from "@chainlink/contracts/src/v0.8/AutomationCompatible.sol";
 
-contract PriceConsumer is AutomationCompatible {
+import {IPriceFeed} from "./interfaces/IPriceFeed.sol";
+
+contract PriceConsumer is IPriceFeed, AutomationCompatible {
     AggregatorV3Interface internal _priceFeed;
 
     uint256 public immutable interval; // minimum interval (in seconds) between two answers
@@ -17,11 +19,16 @@ contract PriceConsumer is AutomationCompatible {
         interval = interval_;
     }
 
+    function getCurrentPrice() external view returns (int256) {
+        (, int256 answer,,,) = _priceFeed.latestRoundData();
+        return answer;
+    }
+
     function getPrice(uint256 index) external view returns (int256) {
         return _answers[index];
     }
 
-    function count() external view returns (uint256) {
+    function priceCount() external view returns (uint256) {
         return _answers.length;
     }
 
@@ -49,8 +56,11 @@ contract PriceConsumer is AutomationCompatible {
 
         require(updatedAt >= _nextTimestamp, "Not enough time since previous answer");
 
+        uint256 index = _answers.length;
         _answers.push(answer);
         _nextTimestamp += interval;
+
+        emit PriceUpdated(index, answer);
 
         _onAnswer();
     }

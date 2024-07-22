@@ -1,12 +1,40 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+
+import {IPriceFeed} from "../interfaces/IPriceFeed.sol";
 import {ITokenDescriptor} from "../interfaces/ITokenDescriptor.sol";
 
 library LibPredict {
     enum PriceAction {
         PRICE_DOWN,
         PRICE_UP
+    }
+
+    function getPriceAction(IPriceFeed feed, uint256 index1, uint256 index2) internal view returns (PriceAction) {
+        int256 oldPrice = feed.getPrice(index1);
+        int256 newPrice = feed.getPrice(index2);
+
+        return newPrice > oldPrice ? PriceAction.PRICE_UP : PriceAction.PRICE_DOWN;
+    }
+
+    function getRecentPriceAction(IPriceFeed feed, uint256 maxCount) internal view returns (PriceAction[] memory) {
+        uint256 priceCount = feed.priceCount();
+
+        if (priceCount < 2) {
+            return new PriceAction[](0);
+        }
+
+        uint256 count = Math.min(maxCount, priceCount - 1);
+        PriceAction[] memory priceAction = new PriceAction[](count);
+
+        uint256 offset = priceCount - count - 1;
+        for (uint256 i; i < count; i++) {
+            priceAction[i] = getPriceAction(feed, offset + i, offset + i + 1);
+        }
+
+        return priceAction;
     }
 
     function getPredictions(ITokenDescriptor descriptor, uint256 tokenId)
