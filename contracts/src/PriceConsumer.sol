@@ -51,5 +51,9 @@ contract PriceConsumer is AutomationCompatible {
 
         _answers.push(answer);
         _nextTimestamp += interval;
+
+        _onAnswer();
     }
+
+    function _onAnswer() internal virtual {}
 }
