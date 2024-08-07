@@ -18,9 +18,9 @@ contract Deploy is Script {
         uint256 initialTimestamp = vm.envOr("PRICE_INITIAL_TIMESTAMP", block.timestamp);
         uint80[] memory roundIds = new uint80[](0);
 
-        vm.startBroadcast(deployerPrivateKey);
-
         MessageBroker broker = MessageBroker(vm.envAddress("MESSAGE_BROKER_CONTRACT_ADDRESS"));
+
+        vm.startBroadcast(deployerPrivateKey);
 
         ObservablePriceFeed priceFeed =
             new ObservablePriceFeed(address(broker), feed, interval, initialTimestamp, roundIds);
