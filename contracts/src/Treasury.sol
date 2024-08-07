@@ -1,27 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
+import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
+import {TreasuryBase} from "./TreasuryBase.sol";
 
-import {ITreasury} from "./interfaces/ITreasury.sol";
+contract Treasury is TreasuryBase {
+    IERC4626 public vault;
 
-contract Treasury is ITreasury, AccessControl {
-    using Address for address payable;
-
-    bytes32 public constant PAYMENT_ROLE = keccak256("PAYMENT_ROLE");
-
-    constructor(address admin) {
-        _grantRole(DEFAULT_ADMIN_ROLE, admin);
+    constructor(address admin, address vault_) TreasuryBase(admin) {
+        vault = IERC4626(vault_);
     }
 
-    function pay(address to, uint256 amount) public override onlyRole(PAYMENT_ROLE) {
-        payable(to).sendValue(amount);
+    function token() public view override returns (address) {
+        return vault.asset();
     }
 
     function balance() public view override returns (uint256) {
-        return address(this).balance;
+        uint256 shares = vault.balanceOf(address(this));
+
+        return vault.convertToAssets(shares);
     }
 
-    receive() external payable {}
+    function _deposit(address from, uint256 amount) internal override {
+        IERC20(token()).transferFrom(from, address(this), amount);
+        uint256 total = IERC20(token()).balanceOf(address(this));
+
+        vault.deposit(total, address(this));
+    }
+
+    function _pay(address to, uint256 amount) internal override {
+        vault.withdraw(amount, to, address(this));
+    }
 }
