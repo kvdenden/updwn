@@ -18,10 +18,22 @@ export function MainNav() {
       </Link>
       <nav className="flex items-center gap-6 text-sm">
         <Link
-          href={siteConfig.links.github}
+          href={"/profile"}
           className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
         >
-          Link
+          Profile
+        </Link>
+        <Link
+          href={"/explore"}
+          className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
+        >
+          Explore
+        </Link>
+        <Link
+          href={"/leaderboard"}
+          className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
+        >
+          Leaderboard
         </Link>
       </nav>
     </div>

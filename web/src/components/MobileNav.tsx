@@ -49,11 +49,17 @@ export function MobileNav() {
       <SheetContent side="left" className="pr-0">
         <MobileLink href="/" className="flex items-center" onOpenChange={setOpen}>
           <Icons.logo className="mr-2 h-4 w-4" />
-          <span className="font-bold">{siteConfig.name}</span>
+          <span className="font-bold mb-8">{siteConfig.name}</span>
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-          <MobileLink href="/link" className="flex items-center" onOpenChange={setOpen}>
-            <span className="font-bold">Link</span>
+          <MobileLink href="/profile" className="flex items-center" onOpenChange={setOpen}>
+            <span className="font-bold mb-8">Profile</span>
+          </MobileLink>
+          <MobileLink href="/explore" className="flex items-center" onOpenChange={setOpen}>
+            <span className="font-bold mb-8">Explore</span>
+          </MobileLink>
+          <MobileLink href="/leaderboard" className="flex items-center" onOpenChange={setOpen}>
+            <span className="font-bold mb-8">Leaderboard</span>
           </MobileLink>
         </ScrollArea>
       </SheetContent>
