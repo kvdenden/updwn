@@ -1,12 +1,12 @@
 import ConnectButton from "@/components/ConnectButton";
+import { InfoSection } from "@/components/InfoSection";
+import { MintSection } from "@/components/MintSection";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-6xl font-bold text-center">UP/DWN</h1>
-      <div>
-        <ConnectButton />
-      </div>
+    <main className="flex flex-col items-center container mx-auto max-w-7xl justify-between py-12 px-0">
+      <MintSection />
+      <InfoSection />
     </main>
   );
 }

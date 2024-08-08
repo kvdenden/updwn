@@ -2,10 +2,10 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-
 import Web3Provider from "@/web3/provider";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
+import { SiteHeader } from "@/components/SiteHeader";
 
 const font = localFont({
   src: [
@@ -38,7 +38,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("min-h-screen bg-background font-disket antialiased", font.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          <Web3Provider>{children}</Web3Provider>
+          <Web3Provider>
+            <SiteHeader />
+            {children}
+          </Web3Provider>
         </ThemeProvider>
       </body>
     </html>
