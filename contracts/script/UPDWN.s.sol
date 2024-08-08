@@ -1,24 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import {Script, console} from "forge-std/Script.sol";
+import {console} from "forge-std/Script.sol";
+import {ScriptBase} from "./Base.sol";
 
 import {UPDWN} from "../src/UPDWN.sol";
 
-contract Deploy is Script {
-    function setUp() public {}
-
-    function run() public {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        address deployer = vm.addr(deployerPrivateKey);
-
+contract Deploy is ScriptBase {
+    function _run() internal override {
         address rng = vm.envAddress("RNG_CONTRACT_ADDRESS");
-
-        vm.startBroadcast(deployerPrivateKey);
 
         UPDWN updwn = new UPDWN(deployer, rng, 12);
         console.log("UPDWN deployed at ", address(updwn));
-
-        vm.stopBroadcast();
+        _setEnv("UPDWN_CONTRACT_ADDRESS", address(updwn));
     }
 }
