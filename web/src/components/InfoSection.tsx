@@ -1,9 +1,4 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import { siteConfig } from "@/lib/siteConfig";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 const items = [
   {
@@ -33,7 +28,7 @@ const items = [
 export function InfoSection() {
   return (
     <section className="container mx-auto max-w-7xl py-12 lg:py-24 px-2">
-      <h2 className="text-4xl xl:text-8xl mb-4">
+      <h2 className="text-4xl font-bold xl:text-8xl mb-4">
         One Winner,
         <br />
         Every Day,
