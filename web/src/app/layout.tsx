@@ -1,13 +1,27 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
 import Web3Provider from "@/web3/provider";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
 
-const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const font = localFont({
+  src: [
+    {
+      path: "./Disket-Rostype/Disket-Mono-Bold.ttf",
+      style: "normal",
+      weight: "700",
+    },
+    {
+      path: "./Disket-Rostype/Disket-Mono-Regular.ttf",
+      style: "normal",
+      weight: "400",
+    },
+  ],
+  variable: "--font-disket",
+});
 
 export const metadata: Metadata = {
   title: "UP/DWN",
@@ -22,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      <body className={cn("min-h-screen bg-background font-disket antialiased", font.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
           <Web3Provider>{children}</Web3Provider>
         </ThemeProvider>

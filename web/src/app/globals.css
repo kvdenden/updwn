@@ -67,3 +67,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.font-disket {
+  font-family: var(--font-disket), monospace;
+}
