@@ -40,7 +40,7 @@ export const users: Users[] = [
 
 export function Leaderboard() {
   return (
-    <section className="container mx-auto max-w-7xl py-12 lg:py-24 px-2">
+    <section className="container mx-auto max-w-7xl px-2">
       <h2 className="text-4xl font-bold xl:text-8xl mb-4">Who Holds the Crown?</h2>
       <p className="text-xl xl:text-4xl mb-12 lg:mb-24">Find out who is leading the pack in ETH predictions.</p>
       <DataTable columns={columns} data={users} />
