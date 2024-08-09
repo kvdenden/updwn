@@ -9,6 +9,7 @@ import {Deploy as DeployMessageBroker} from "./MessageBroker.s.sol";
 import {Deploy as DeployPriceFeed} from "./PriceFeed.s.sol";
 import {Deploy as DeployTreasury} from "./Treasury.s.sol";
 import {Deploy as DeployUPDWN} from "./UPDWN.s.sol";
+import {Deploy as DeployRenderer} from "./Renderer.s.sol";
 import {Deploy as DeployGameEngine} from "./GameEngine.s.sol";
 import {Deploy as DeployTokenMinter} from "./TokenMinter.s.sol";
 
@@ -21,6 +22,7 @@ contract DeployAll is Script {
         scripts.push(new DeployPriceFeed());
         scripts.push(new DeployTreasury());
         scripts.push(new DeployUPDWN());
+        scripts.push(new DeployRenderer());
         scripts.push(new DeployGameEngine());
         scripts.push(new DeployTokenMinter());
 
