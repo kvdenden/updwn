@@ -23,7 +23,7 @@ export const columns: ColumnDef<Users>[] = [
       const isSorted = column.getIsSorted();
       return (
         <Button variant="ghost" className="pl-0 hover:bg-transparent" onClick={() => column.toggleSorting()}>
-          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "white" : "lightgray" }}>
+          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "" : "secondary" }}>
             # of NFTs
           </span>
           {isSorted === "asc" ? (
@@ -43,9 +43,7 @@ export const columns: ColumnDef<Users>[] = [
       const isSorted = column.getIsSorted();
       return (
         <Button variant="ghost" className="pl-0 hover:bg-transparent" onClick={() => column.toggleSorting()}>
-          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "white" : "lightgray" }}>
-            Wins
-          </span>
+          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "" : "secondary" }}>Wins</span>
           {isSorted === "asc" ? (
             <ChevronUp className="ml-2 h-4 w-4" />
           ) : isSorted === "desc" ? (
@@ -63,9 +61,7 @@ export const columns: ColumnDef<Users>[] = [
       const isSorted = column.getIsSorted();
       return (
         <Button variant="ghost" className="pl-0 hover:bg-transparent" onClick={() => column.toggleSorting()}>
-          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "white" : "lightgray" }}>
-            Claimed
-          </span>
+          <span style={{ fontWeight: isSorted ? "bold" : "normal", color: isSorted ? "" : "secondary" }}>Claimed</span>
           {isSorted === "asc" ? (
             <ChevronUp className="ml-2 h-4 w-4" />
           ) : isSorted === "desc" ? (
