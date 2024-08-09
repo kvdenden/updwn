@@ -4,7 +4,7 @@ import { MintSection } from "@/components/MintSection";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center container mx-auto max-w-7xl justify-between py-12 px-0">
+    <main className="flex flex-col items-center container mx-auto max-w-7xl justify-between py-12 px-2">
       <MintSection />
       <InfoSection />
     </main>

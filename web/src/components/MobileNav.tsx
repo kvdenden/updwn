@@ -9,9 +9,11 @@ import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -52,14 +54,26 @@ export function MobileNav() {
           <span className="font-bold mb-8">{siteConfig.name}</span>
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-          <MobileLink href="/profile" className="flex items-center" onOpenChange={setOpen}>
-            <span className="font-bold mb-8">Profile</span>
+          <MobileLink
+            href="/profile"
+            className={cn("flex items-center", pathname === "/profile" ? "font-bold" : "")}
+            onOpenChange={setOpen}
+          >
+            <span className="mb-8">Profile</span>
           </MobileLink>
-          <MobileLink href="/explore" className="flex items-center" onOpenChange={setOpen}>
-            <span className="font-bold mb-8">Explore</span>
+          <MobileLink
+            href="/explore"
+            className={cn("flex items-center", pathname === "/explore" ? "font-bold" : "")}
+            onOpenChange={setOpen}
+          >
+            <span className="mb-8">Explore</span>
           </MobileLink>
-          <MobileLink href="/leaderboard" className="flex items-center" onOpenChange={setOpen}>
-            <span className="font-bold mb-8">Leaderboard</span>
+          <MobileLink
+            href="/leaderboard"
+            className={cn("flex items-center", pathname === "/leaderboard" ? "font-bold" : "")}
+            onOpenChange={setOpen}
+          >
+            <span className="mb-8">Leaderboard</span>
           </MobileLink>
         </ScrollArea>
       </SheetContent>

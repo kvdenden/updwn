@@ -19,19 +19,28 @@ export function MainNav() {
       <nav className="flex items-center gap-6 text-sm">
         <Link
           href={"/profile"}
-          className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
+          className={cn(
+            "hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block",
+            pathname === "/profile" ? "font-bold" : ""
+          )}
         >
           Profile
         </Link>
         <Link
           href={"/explore"}
-          className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
+          className={cn(
+            "hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block",
+            pathname === "/explore" ? "font-bold" : ""
+          )}
         >
           Explore
         </Link>
         <Link
           href={"/leaderboard"}
-          className={cn("hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block")}
+          className={cn(
+            "hidden text-foreground/60 transition-colors hover:text-foreground/80 md:block",
+            pathname === "/leaderboard" ? "font-bold" : ""
+          )}
         >
           Leaderboard
         </Link>
