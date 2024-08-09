@@ -2,7 +2,25 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface NFT {
   token_id: number;
@@ -44,7 +62,8 @@ function getRandomPrice(): number {
 export function NftOverview() {
   const [sliderRange, setSliderRange] = useState([2, 12]);
   const [sortBy, setSortBy] = useState<"wins" | "claimed" | "current_matches" | "price">("current_matches");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
   const filteredNFTs = NFTS.filter(
     (nft) => nft.current_matches >= sliderRange[0] && nft.current_matches <= sliderRange[1]
   ).sort((a, b) => {
@@ -61,14 +80,23 @@ export function NftOverview() {
         return 0;
     }
   });
+  const totalPages = Math.ceil(filteredNFTs.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedNFTs = filteredNFTs.slice(startIndex, endIndex);
   const handleSliderChange = (newRange: number[]) => {
     setSliderRange(newRange);
+    setCurrentPage(1);
   };
   const handleSortChange = (option: "wins" | "claimed" | "current_matches" | "price") => {
     setSortBy(option);
+    setCurrentPage(1);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
   return (
-    <section className="container mx-auto max-w-7xl px-0">
+    <section className="px-0 w-full">
       <div className="my-12 flex flex-col xl:flex-row gap-12">
         <div className="flex flex-col w-full py-4">
           <p className="mb-4 text-sm">Number of correct predictions</p>
@@ -113,30 +141,109 @@ export function NftOverview() {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  w-full">
-        {filteredNFTs.map((nft) => (
+        {displayedNFTs.map((nft) => (
           <div
             key={nft.token_id}
-            className="overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl  w-full"
+            className="overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl border  w-full"
           >
             <Skeleton className="w-full min-w-[300px] h-[300px] mx-auto" /> {/* Adjust size as needed */}
-            <div className="bg-background p-4  w-full">
+            <div className="bg-background p-4 w-full">
               <div className="flex items-center justify-between w-full">
                 <div className="w-full">
                   <div className="flex justify-between">
                     <h3 className="text-lg font-bold">{`UP/DWN ${nft.token_id}`}</h3>
                     <h3 className="text-lg font-bold">{nft.isListed ? `${nft.price} ETH` : `-`}</h3>
                   </div>
-                  <h3 className="text-muted-foreground">{`Wins: ${nft.wins}`}</h3>
-                  <p className="text-muted-foreground">{`Total Claimed: $${nft.claimed}`}</p>
-                  <p className="text-muted-foreground">{`# of matches: ${nft.current_matches}`}</p>
-                  <Button className="w-full my-2" size="sm">
-                    Buy
-                  </Button>
+                  <h3 className="text-muted-foreground text-xs">{`Wins: ${nft.wins}`}</h3>
+                  <p className="text-muted-foreground text-xs">{`Total Claimed: $${nft.claimed}`}</p>
+                  <p className="text-muted-foreground text-xs">{`# of matches: ${nft.current_matches}`}</p>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="w-full mt-6 mb-4">
+                      <Button className="w-full my-2" size="sm">
+                        Go to Marketplace
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-full">
+                      <DropdownMenuItem>
+                        {" "}
+                        <a className="w-full h-full" href="https://opensea.io/" target="_blank" rel="noreferrer">
+                          Opensea
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <a className="w-full h-full" href="https://blur.io/" target="_blank" rel="noreferrer">
+                          Blur
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <a className="w-full h-full" href="https://magiceden.io" target="_blank" rel="noreferrer">
+                          Magic Eden
+                        </a>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center mt-8">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem className="hidden xl:block">
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) handlePageChange(currentPage - 1);
+                }}
+                className={cn("text-xs xl:text-md", currentPage <= 1 ? "pointer-events-none opacity-50" : "")}
+              />
+            </PaginationItem>
+            {[...Array(totalPages)].map((_, index) => {
+              const pageNumber = index + 1;
+              if (
+                pageNumber === 1 ||
+                pageNumber === totalPages ||
+                (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+              ) {
+                return (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(pageNumber);
+                      }}
+                      isActive={pageNumber === currentPage}
+                      className={"text-xs xl:text-md"}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              } else if (
+                (pageNumber === currentPage - 2 && currentPage > 3) ||
+                (pageNumber === currentPage + 2 && currentPage < totalPages - 2)
+              ) {
+                return <PaginationEllipsis className="text-xs xl:text-md" key={pageNumber} />;
+              }
+              return null;
+            })}
+            <PaginationItem className="hidden xl:block">
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) handlePageChange(currentPage + 1);
+                }}
+                className={cn("text-xs xl:text-md", currentPage >= totalPages ? "pointer-events-none opacity-50" : "")}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </section>
   );
