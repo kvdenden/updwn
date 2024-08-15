@@ -40,10 +40,9 @@ const NFTS: NFT[] = [
 ];
 
 const stats = {
-  "Number of wins": 43,
-  "Total claimed": "$567.89",
   "Earliest win possible": "3 days",
 };
+
 export default function Profile() {
   return (
     <main className="flex flex-col  container mx-auto max-w-7xl justify-between py-12 px-2">

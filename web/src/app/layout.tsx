@@ -6,6 +6,7 @@ import Web3Provider from "@/web3/provider";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
 import { SiteHeader } from "@/components/SiteHeader";
+import { Footer } from "@/components/Footer";
 
 const font = localFont({
   src: [
@@ -41,6 +42,7 @@ export default function RootLayout({
           <Web3Provider>
             <SiteHeader />
             {children}
+            <Footer />
           </Web3Provider>
         </ThemeProvider>
       </body>
