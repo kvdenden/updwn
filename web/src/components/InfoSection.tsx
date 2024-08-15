@@ -2,26 +2,44 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const items = [
   {
-    title: "Match the pattern",
-    description: "Own the NFT with the pattern of the past 12 days of ETH price movements to win.",
-  },
-  {
-    title: "Trade and Win",
-    description: "Predict market movements and buy the right NFTs. Trade strategically to maximize your rewards.",
-  },
-  {
-    title: "Sustainable prize pool",
-    description: "All proceeds are invested in DeFi. The generated yield forms the daily prize pool.",
-  },
-  {
-    title: "Provably fair",
+    title: "Get your ticket",
     description:
-      "Anyone can trigger snapshots, which are stored on-chain, when 24 hours have passed since the previous one.",
+      "Mint your unique pattern of ETH price movements. Patterns have 12 slots that indicate upwards or downwards price changes.",
+  },
+  {
+    title: "Tracking ETH Together",
+    description:
+      "Snapshots of ETH's price movement (sourced from Chainlink) are stored onchain daily. Anyone can trigger a snapshot, when 24 hours have passed since the previous one.",
+  },
+  {
+    title: "Match the pattern",
+    description:
+      "To win, you need to hold the ticket whose pattern perfectly matches the actual ETH price movements for the past 12 days.",
+  },
+  {
+    title: "The daily prize",
+    description:
+      "100% of the funds are used to provide liquidity to DeFi protocols, generating yield. Daily prizes are based on this yield, creating a sustainable reward system.",
+  },
+  {
+    title: "Growing the prize pool",
+    description:
+      "All royalties and a part of the generated yield are added to the treasury, creating a compounding effect and growing future prizes.",
+  },
+  {
+    title: "One Ticket, Endless Entries",
+    description:
+      "Purchase your ticket once, and you're set for all future draws. Your ticket remains active indefinitely, giving you a shot at the daily prize every single day without any additional cost.",
+  },
+  {
+    title: "Strategic Trading",
+    description:
+      "Buy and sell tickets in the open market to boost your chances. Spot trends, make smart trades and grow your odds of holding a winning pattern.",
   },
   {
     title: "For the community",
     description:
-      "UPDWN is built by and for the community. Together we will decide how the treasury is invested and explore ways to grow it.",
+      "UPDWN is built by and for the community. Using onchain governance we will decide how the treasury is invested and explore ways to grow it.",
   },
 ];
 
@@ -34,7 +52,7 @@ export function InfoSection() {
         Every Day,
         <br /> Forever.
       </h2>
-      <p className="text-xl xl:text-4xl mb-12 lg:mb-24">
+      <p className="text-xl xl:text-4xl text-muted-foreground mb-12 lg:mb-24">
         UPDWN is an experimental trading game with a daily winner. Pay once, trade smart and stay in the game forever.
       </p>
       {items.map((item, i) => (
@@ -45,7 +63,7 @@ export function InfoSection() {
 
           <div className="flex flex-col justify-center">
             <h2 className="font-bold text-lg">{item.title}</h2>
-            <p>{item.description}</p>
+            <p className="text-muted-foreground">{item.description}</p>
           </div>
         </div>
       ))}
