@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/pagination";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { getRandomPrice } from "@/lib/utils";
 
 interface NFT {
   token_id: number;
@@ -54,10 +55,6 @@ const NFTS: NFT[] = [
   { token_id: 143, wins: 29, claimed: 678.12, current_matches: 2, isListed: false },
   { token_id: 144, wins: 92, claimed: 7890.12, current_matches: 10, isListed: true, price: getRandomPrice() },
 ];
-
-function getRandomPrice(): number {
-  return parseFloat((0.08 + Math.random() * (0.17 - 0.08)).toFixed(2));
-}
 
 export function NftOverview() {
   const [sliderRange, setSliderRange] = useState([2, 12]);
