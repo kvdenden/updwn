@@ -11,16 +11,6 @@
 - forge script script/RNG.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
 - set RNG_CONTRACT_ADDRESS env variable
 
-### deploy token
-
-- forge script script/UPDWN.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
-- set UPDWN_CONTRACT_ADDRESS env variable
-
-### deploy renderer
-
-- forge script script/Renderer.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
-- set RENDERER_CONTRACT_ADDRESS env variable
-
 ### deploy message broker
 
 - forge script script/MessageBroker.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
@@ -30,6 +20,16 @@
 
 - forge script script/PriceFeed.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
 - set PRICE_FEED_CONTRACT_ADDRESS env variable
+
+### deploy token
+
+- forge script script/UPDWN.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
+- set UPDWN_CONTRACT_ADDRESS env variable
+
+### deploy renderer
+
+- forge script script/Renderer.s.sol:Deploy --broadcast --verify --slow --rpc-url base_sepolia
+- set RENDERER_CONTRACT_ADDRESS env variable
 
 ### deploy treasury
 
