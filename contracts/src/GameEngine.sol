@@ -4,6 +4,7 @@ pragma solidity ^0.8.23;
 import {Subscriber} from "./Subscriber.sol";
 import {UPDWN} from "./UPDWN.sol";
 import {IPriceFeed} from "./interfaces/IPriceFeed.sol";
+import {IRewardStrategy} from "./interfaces/IRewardStrategy.sol";
 import {ITreasury} from "./interfaces/ITreasury.sol";
 
 import {LibPredict} from "./lib/LibPredict.sol";
@@ -17,6 +18,7 @@ contract GameEngine is Subscriber {
     UPDWN public immutable updwn;
     IPriceFeed public immutable priceFeed;
     ITreasury public immutable treasury;
+    IRewardStrategy public immutable strategy;
 
     uint256 public epoch;
 
@@ -27,10 +29,13 @@ contract GameEngine is Subscriber {
 
     mapping(uint256 => Reward) private _rewards;
 
-    constructor(address updwn_, address priceFeed_, address treasury_, address broker_) Subscriber(broker_) {
+    constructor(address updwn_, address priceFeed_, address treasury_, address strategy_, address broker_)
+        Subscriber(broker_)
+    {
         updwn = UPDWN(updwn_);
         priceFeed = IPriceFeed(priceFeed_);
         treasury = ITreasury(treasury_);
+        strategy = IRewardStrategy(strategy_);
     }
 
     function getReward(uint256 epoch_) public view returns (Reward memory) {
@@ -58,15 +63,11 @@ contract GameEngine is Subscriber {
         emit ClaimReward(epoch, winner, amount);
     }
 
-    function _calculateRewardAmount() internal view virtual returns (uint256) {
-        return treasury.balance() / 100;
-    }
-
     function _onEvent(bytes32 event_, bytes calldata /* data_ */ ) internal virtual override {
         if (event_ == keccak256("pricefeed.update")) {
             // (uint256 index, int256 answer) = abi.decode(data_, (uint256, int256));
 
-            uint256 amount = _calculateRewardAmount();
+            uint256 amount = strategy.nextReward();
             _rewards[++epoch] = Reward(amount, false);
         }
     }

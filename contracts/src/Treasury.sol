@@ -6,14 +6,13 @@ import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import {TreasuryBase} from "./TreasuryBase.sol";
 
 contract Treasury is TreasuryBase {
+    address public immutable token;
+
     IERC4626 public vault;
 
     constructor(address admin, address vault_) TreasuryBase(admin) {
         vault = IERC4626(vault_);
-    }
-
-    function token() public view override returns (address) {
-        return vault.asset();
+        token = vault.asset();
     }
 
     function balance() public view override returns (uint256) {
@@ -23,8 +22,8 @@ contract Treasury is TreasuryBase {
     }
 
     function _deposit(address from, uint256 amount) internal override {
-        IERC20(token()).transferFrom(from, address(this), amount);
-        uint256 total = IERC20(token()).balanceOf(address(this));
+        IERC20(token).transferFrom(from, address(this), amount);
+        uint256 total = IERC20(token).balanceOf(address(this));
 
         vault.deposit(total, address(this));
     }
