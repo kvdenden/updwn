@@ -14,25 +14,25 @@ const items = [
   {
     title: "Tracking ETH Together",
     description:
-      "Snapshots of ETH's price movement (sourced from Chainlink) are stored onchain daily. Anyone can trigger a snapshot, when 24 hours have passed since the previous one.",
+      "Snapshots of ETH's price movement (sourced from Chainlink) are daily stored onchain. Snapshots can be triggered by anyone once 24 hours have passed since the last one.",
     icon: <FaMagnifyingGlassChart className="h-[1.8rem] w-[1.8rem]" />,
   },
   {
     title: "Match the pattern",
     description:
-      "To win, you need to hold the ticket whose pattern perfectly matches the actual ETH price movements for the past 12 days.",
+      "The player with the ticket that exactly matches today’s and the last 11 days’ ETH price movements wins.",
     icon: <FaPuzzlePiece className="h-[1.8rem] w-[1.8rem]" />,
   },
   {
-    title: "The daily prize",
+    title: "A daily prize",
     description:
-      "100% of the funds are used to provide liquidity to DeFi protocols, generating yield. Daily prizes are based on this yield, creating a sustainable reward system.",
+      "100% of the mint proceeds is used to provide liquidity in DeFi protocols. The generated yield funds the daily prize, creating a sustainable reward system.",
     icon: <FaGift className="h-[1.8rem] w-[1.8rem]" />,
   },
   {
     title: "Growing the prize pool",
     description:
-      "All royalties and a part of the generated yield are added to the treasury, creating a compounding effect and growing future prizes.",
+      "Part of the generated yield is added to the treasury daily, creating a compounding effect and growing future wins.",
     icon: <GiLockedChest className="h-[1.8rem] w-[1.8rem]" />,
   },
   {

@@ -143,7 +143,7 @@ export function NftOverview() {
             key={nft.token_id}
             className="overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl border  w-full"
           >
-            <Skeleton className="w-full min-w-[300px] h-[300px] mx-auto" /> {/* Adjust size as needed */}
+            <Skeleton className="w-full min-w-[300px] h-[300px] mx-auto" />
             <div className="bg-background p-4 w-full">
               <div className="flex items-center justify-between w-full">
                 <div className="w-full">
@@ -154,10 +154,9 @@ export function NftOverview() {
                   <h3 className="text-muted-foreground text-xs">{`Wins: ${nft.wins}`}</h3>
                   <p className="text-muted-foreground text-xs">{`Total Claimed: $${nft.claimed}`}</p>
                   <p className="text-muted-foreground text-xs">{`# of matches: ${nft.current_matches}`}</p>
-
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="w-full mt-6 mb-4">
-                      <Button className="w-full my-2" size="sm">
+                    <DropdownMenuTrigger asChild>
+                      <Button className="w-full mt-6" size="sm">
                         Go to Marketplace
                       </Button>
                     </DropdownMenuTrigger>
