@@ -1,10 +1,14 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+
 import localFont from "next/font/local";
-import Web3Provider from "@/web3/provider";
-import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
+
+import Web3Provider from "@/web3/provider";
+import GraphQLProvider from "@/graphql/provider";
+import { cn } from "@/lib/utils";
+
 import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
 
@@ -36,14 +40,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-disket antialiased", font.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          <Web3Provider>
-            <SiteHeader />
-            {children}
-            <Footer />
-          </Web3Provider>
+          <GraphQLProvider>
+            <Web3Provider>
+              <SiteHeader />
+              {children}
+              <Footer />
+            </Web3Provider>
+          </GraphQLProvider>
         </ThemeProvider>
       </body>
     </html>

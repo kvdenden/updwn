@@ -69,8 +69,8 @@ contract PriceConsumer is IPriceFeed, AutomationCompatible {
 
         emit PriceUpdated(index, answer);
 
-        _onAnswer();
+        _onAnswer(index, answer);
     }
 
-    function _onAnswer() internal virtual {}
+    function _onAnswer(uint256 index, int256 answer) internal virtual {}
 }
