@@ -3,9 +3,11 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Web3Provider from "@/web3/provider";
-import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
+
+import Web3Provider from "@/web3/provider";
+import GraphQLProvider from "@/graphql/provider";
+import { cn } from "@/lib/utils";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -24,7 +26,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          <Web3Provider>{children}</Web3Provider>
+          <GraphQLProvider>
+            <Web3Provider>{children}</Web3Provider>
+          </GraphQLProvider>
         </ThemeProvider>
       </body>
     </html>
