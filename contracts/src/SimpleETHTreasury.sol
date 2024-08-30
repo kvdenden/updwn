@@ -18,6 +18,10 @@ contract SimpleETHTreasury is TreasuryBase {
         return address(this).balance;
     }
 
+    function _deposit(address, uint256 amount) internal override {
+        require(msg.value == amount, "Invalid deposit amount");
+    }
+
     function _pay(address to, uint256 amount) internal override {
         payable(to).sendValue(amount);
     }

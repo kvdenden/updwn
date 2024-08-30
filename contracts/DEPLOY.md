@@ -1,5 +1,9 @@
 # Deployment steps
 
+### token price configuration
+
+- set TOKEN_PRICE env variable
+
 ### price feed configuration
 
 - set PRICE_FEED_ADDRESS env variable

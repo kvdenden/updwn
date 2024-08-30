@@ -242,17 +242,11 @@ export const tokenMinterAbi = [
   {
     type: 'constructor',
     inputs: [
+      { name: 'price_', internalType: 'uint256', type: 'uint256' },
       { name: 'token_', internalType: 'address', type: 'address' },
       { name: 'treasury_', internalType: 'address', type: 'address' },
     ],
     stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'TOKEN_PRICE',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -265,6 +259,13 @@ export const tokenMinterAbi = [
       { name: 'tokenIds', internalType: 'uint256[]', type: 'uint256[]' },
     ],
     stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'price',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -287,12 +288,6 @@ export const tokenMinterAbi = [
     outputs: [],
     stateMutability: 'nonpayable',
   },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'AddressInsufficientBalance',
-  },
-  { type: 'error', inputs: [], name: 'FailedInnerCall' },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
